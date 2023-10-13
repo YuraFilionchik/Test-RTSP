@@ -32,9 +32,9 @@ namespace RTSPTest
                 rtspUrl = Console.ReadLine();
                 string ip = ParseIp(rtspUrl);
                 PingMonitor monitor = new PingMonitor(ip, pingInterval);
-                Log = new Logger(ip);
                 Console.Write("tcp или udp:");
                 protocol = Console.ReadLine().ToLower().Contains("udp") ? "udp" : "tcp";
+                Log = new Logger(ip, protocol);
                 VideoFileName = NameOfVideoFile(ip, protocol);
                 Console.Write("Время тестирования в часах: ");
                 var h = Console.ReadLine();
@@ -146,6 +146,12 @@ namespace RTSPTest
         {
             this.ip = ip;
             logFile = $"{ip}_{DateTime.Now.ToString("d")}.txt";
+        }
+
+        public Logger(string ip, string protocol)
+        {
+            this.ip = ip;
+            logFile = $"{ip}_{DateTime.Now.ToString("d")}_{protocol}.txt";
         }
 
         public Logger()
