@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанные с этой сборкой.
-[assembly: AssemblyTitle("Test RTSP")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Тестирование RTSP")]
+[assembly: AssemblyDescription("Тестирование RTSP потоков с параллельным пингом по ip, ведение логов.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("МТД(Т)С")]
 [assembly: AssemblyProduct("Test RTSP")]
-[assembly: AssemblyCopyright("Copyright ura_f©mail.ru  2023")]
+[assembly: AssemblyCopyright("Copyright ura_f@mail.ru  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

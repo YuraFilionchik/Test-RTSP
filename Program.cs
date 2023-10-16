@@ -31,6 +31,13 @@ namespace RTSPTest
                 Console.Write("Введите RTSP:");
                 rtspUrl = Console.ReadLine();
                 string ip = ParseIp(rtspUrl);
+                if (String.IsNullOrEmpty(ip))
+                {
+                    Console.WriteLine("Неверный адрес: " + rtspUrl);
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+
                 PingMonitor monitor = new PingMonitor(ip, pingInterval);
                 Console.Title = "Тест камеры: " + ip;
                 Console.Write("tcp или udp:");
