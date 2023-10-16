@@ -32,6 +32,7 @@ namespace RTSPTest
                 rtspUrl = Console.ReadLine();
                 string ip = ParseIp(rtspUrl);
                 PingMonitor monitor = new PingMonitor(ip, pingInterval);
+                Console.Title = "Тест камеры: " + ip;
                 Console.Write("tcp или udp:");
                 protocol = Console.ReadLine().ToLower().Contains("udp") ? "udp" : "tcp";
                 Log = new Logger(ip, protocol);
