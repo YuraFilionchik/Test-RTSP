@@ -25,7 +25,7 @@ namespace RTSPTest
             int duration = 3600; // Длительность теста в секундах
             int pingInterval = 2000;
             float hours = 1;
-
+            string comment = string.Empty;
             try
             {
                 Console.Write("Введите RTSP:");
@@ -39,7 +39,6 @@ namespace RTSPTest
                 }
 
                 PingMonitor monitor = new PingMonitor(ip, pingInterval);
-                Console.Title = "Тест камеры: " + ip;
                 Console.Write("tcp или udp:");
                 protocol = Console.ReadLine().ToLower().Contains("udp") ? "udp" : "tcp";
                 Log = new Logger(ip, protocol);
@@ -48,12 +47,19 @@ namespace RTSPTest
                 var h = Console.ReadLine();
                 hours = float.Parse(!String.IsNullOrWhiteSpace(h) ? h : "1,0");
                 duration = (int) (hours * 3600);
+                Console.Write("Комментарий: ");
+                comment = Console.ReadLine();
+                if (!Directory.Exists(ip)) { 
+                Directory.CreateDirectory(ip);
+                }
+
+                Console.Title = $"Тест камеры: {ip} - {comment}";
                 // Команда для запуска ffmpeg
                 string ffmpegCmd = $" -loglevel warning -rtsp_transport {protocol} -i {rtspUrl} -t {duration} -vf scale=640:-1 {VideoFileName}.mp4";
                 monitor.PingFailed += Monitor_PingFailed;
                 // Создание процесса ffmpeg
                 Log.WriteLog($"Запуск теста {ffmpegCmd}", ConsoleColor.Green);
-                Log.WriteLog("ip = " + ip, ConsoleColor.Green);
+                Log.WriteLog($"ip = {ip} <<{comment}>>", ConsoleColor.Green);
                 
                 Log.WriteLog("Длительность теста = " + ( hours > 1.0 ? (hours + "ч" ): (hours * 3600) + "c"), ConsoleColor.Green);
                 Log.WriteLog("Запись лога в файл " + Log.logFile, ConsoleColor.Blue);
@@ -142,7 +148,7 @@ namespace RTSPTest
 
         public static string NameOfVideoFile(string ip, string protocol)
         {
-            return $"{ip}_{protocol}_{DateTime.Now.ToString("g").Replace(":",".").Replace(" ","")}";
+            return $"{ip}/{ip}_{protocol}_{DateTime.Now.ToString("g").Replace(":",".").Replace(" ","")}";
         }
     }
 
@@ -159,7 +165,7 @@ namespace RTSPTest
         public Logger(string ip, string protocol)
         {
             this.ip = ip;
-            logFile = $"{ip}_{DateTime.Now.ToString("d")}_{protocol}.txt";
+            logFile = $"{ip}/{ip}_{DateTime.Now.ToString("d")}_{protocol}.txt";
         }
 
         public Logger()
